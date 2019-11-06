@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Application">
+        <menu>
+            <item
+                android:id="@+id/login"
+                android:icon="@drawable/baseline_face_black_18dp"
+                android:title="로그인" />
+            <item
+                android:id="@+id/join"
+                android:icon="@drawable/baseline_account_box_black_18dp"
+                android:title="회원가입" />
+
+            <item
+                android:id="@+id/upload"
+                android:icon="@android:drawable/ic_menu_camera"
+                android:title="업로드" />
+
+            <item
+                android:id="@+id/first"
+                android:icon="@android:drawable/ic_menu_agenda"
+                android:title="공지사항" />
+
+            <item
+                android:id="@+id/second"
+                android:icon="@android:drawable/ic_menu_gallery"
+                android:title="사진" />
+
+            <item
+                android:id="@+id/third"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="회원정보수정" />
+        </menu>
+
+    </item>
+
+    <item android:title="Preference">
+        <menu>
+            <item
+                android:id="@+id/forth"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="환경설정"/>
+
+        </menu>
+    </item>
+</menu>

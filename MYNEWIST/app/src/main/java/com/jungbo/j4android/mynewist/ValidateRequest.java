@@ -8,20 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidateRequest extends StringRequest {
-    final static private String URL="http://58.120.117.211/Validate.php";
-    private Map<String,String> parameters;
+    final static private String URL="http://192.168.121.137/cookReceip_server/validate.php";
+    private Map<String,String> map;
 
     public ValidateRequest(String userID, Response.Listener<String> listener)
     {
         super(Method.POST,URL,listener,null);
-        parameters=new HashMap<>();
-        parameters.put("userID",userID);
+        map=new HashMap<>();
+        map.put("userID",userID);
 
     }
     @Override
 
     public Map<String,String> getParams(){
-        return parameters;
+        return map;
     }
 
 }

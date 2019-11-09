@@ -1,6 +1,7 @@
 package com.jungbo.j4android.mynewist;
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
@@ -9,24 +10,23 @@ import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
 
-    final static private String URL="http://58.120.117.211/Register.php";
-    private Map<String,String> parameters;
+    final static private String URL="http://192.168.121.137/cookReceip_server/Register.php";
+    private Map<String,String> map;
 
-    public RegisterRequest(String userID,String  userPassword, String userName, int userAge, String userMail,String userFood, Response.Listener<String> listener)
+    public RegisterRequest(String userID,String  userPassword, String userMail, String userName,String userBirth, Response.Listener<String> listener)
     {
         super(Method.POST,URL,listener,null);  //POST방식으로 URL을 숨겨서 보내줘라
-        parameters=new HashMap<>();
-        parameters.put("userID",userID);
-        parameters.put("userPassword",userPassword);
-        parameters.put("userName",userName);
-        parameters.put("userAge",userAge+"");   //문자열 형태로 바꿔줫네
-        parameters.put("userMail",userMail);
-        parameters.put("userFood",userFood);
+        map=new HashMap<>();
+        map.put("userID",userID);
+        map.put("userPassword",userPassword);
+        map.put("userMail",userMail);
+        map.put("userName",userName);
+        map.put("userBirth",userBirth);
     }
 
     @Override
-    public Map<String,String> getParams(){
-        return parameters;
+    public Map<String,String>  getParams() throws AuthFailureError{
+        return map;
 
     }
 

@@ -8,23 +8,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,7 +25,6 @@ public class RegisterActivity extends AppCompatActivity {
     private String userPassword;
     private String userName;
     private String userMail;
-    private int age;
     private AlertDialog dialog;
     private boolean validate=false;
 
@@ -47,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText=(EditText) findViewById(R.id.passwordText);
         final EditText nameText=(EditText) findViewById(R.id.nameText);
         final EditText mailText=(EditText) findViewById(R.id.emailText);
-        final EditText ageText=(EditText) findViewById(R.id.ageText);
+        final EditText birthText=(EditText) findViewById(R.id.birthText);
         final Button validateButton=(Button)findViewById(R.id.validateButton);
 
         validateButton.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +94,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        //양식,일식,중식,한식 어댑터로 연결
-        spinner=(Spinner)findViewById(R.id.foodPreference);
-        adapter=ArrayAdapter.createFromResource(this, R.array.food, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         Button registerButton=(Button) findViewById(R.id.registerButton);
 
@@ -117,11 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String userID=idText.getText().toString();
                 String userPassword=passwordText.getText().toString();
-                String userName=nameText.getText().toString();
-                String userFood=spinner.getSelectedItem().toString();
                 String userMail=mailText.getText().toString();
-                int userAge=Integer.parseInt(ageText.getText().toString());
-                String userAgeCheck=ageText.getText().toString();
+                String userName=nameText.getText().toString();
+                String userBirth=birthText.getText().toString();
 
                 if(!validate)
                 {
@@ -131,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(userID.equals("") || userPassword.equals("") || userName.equals("") || userFood.equals("") || userMail.equals("") || userAgeCheck.equals("") )
+                if(userID.equals("") || userPassword.equals("") || userName.equals("") || userMail.equals("") || userBirth.equals(""))
                 {
                     AlertDialog.Builder builder=new AlertDialog.Builder(RegisterActivity.this);
                     dialog=builder.setMessage("빈칸 없이 입력해주세요.").setNegativeButton("확인",null).create();
@@ -156,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 AlertDialog.Builder builder=new AlertDialog.Builder(RegisterActivity.this);
                                 builder.setMessage("회원등록이 실패했습니다.").setNegativeButton("다시시도",null).create().show();
                                 Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
-                                RegisterActivity.this.startActivity(intent);
+                                startActivity(intent);
                             }
 
                         }catch (JSONException e)
@@ -167,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 };
 
-                RegisterRequest registerRequest=new RegisterRequest(userID,userPassword,userName,userAge,userMail,userFood, responseListener);
+                RegisterRequest registerRequest=new RegisterRequest(userID,userPassword,userMail,userName,userBirth, responseListener);
                 RequestQueue queue=Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
 
@@ -176,6 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /*
     protected void oonStop(){
         super.onStop();
         if(dialog!=null)
@@ -185,5 +170,5 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
-
+    */
 }

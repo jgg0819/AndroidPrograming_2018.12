@@ -69,49 +69,49 @@
                 android:background="@color/colorPurple"/>
 
             <EditText
-                android:inputType="textPassword"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:hint="이름"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:id="@+id/nameText"
-                android:drawableStart="@drawable/ic_https_black_24dp"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPurple"/>
-
-            <EditText
-                android:inputType="textPassword"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:hint="나이"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:id="@+id/ageText"
-                android:drawableStart="@drawable/ic_https_black_24dp"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPurple"/>
-
-            <EditText
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:hint="이메일"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
                 android:id="@+id/emailText"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPurple"
+                android:drawableStart="@drawable/ic_https_black_24dp"
+                android:drawableLeft="@drawable/ic_https_black_24dp"
+                android:hint="이메일"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/nameText"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPurple"
+                android:drawableStart="@drawable/ic_https_black_24dp"
+                android:drawableLeft="@drawable/ic_https_black_24dp"
+                android:hint="이름"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/birthText"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPurple"
                 android:drawableStart="@drawable/ic_email_black_24dp"
                 android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:layout_marginTop="10dp"
-                         android:background="@color/colorPurple"/>
-            
+                android:hint="생년월일(ex 1994-08-19)"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
             <Spinner
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
@@ -120,16 +120,16 @@
                 android:id="@+id/foodPreference"></Spinner>
 
             <Button
+                android:id="@+id/registerButton"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/button_login"
                 android:text="가입하기"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/registerButton"/>
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

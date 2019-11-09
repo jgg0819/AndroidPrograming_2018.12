@@ -63,11 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                                 String userID=jsonResponse.getString("userID");
                                 String userPassword=jsonResponse.getString("userPassword");
                                 boolean checker=true;
-                                Intent intent=new Intent(LoginActivity.this,testActivity.class);
+                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                                 intent.putExtra("userID",userID);
                                 intent.putExtra("userPassword",userPassword);
                                 intent.putExtra("checker",checker);
-                                LoginActivity.this.startActivity(intent);
+                                startActivity(intent);
                                 finish();
                             }
                             else

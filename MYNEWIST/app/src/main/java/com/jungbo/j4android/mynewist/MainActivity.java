@@ -1,36 +1,31 @@
 package com.jungbo.j4android.mynewist;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -43,8 +38,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private RecyclerView view;
-    private DataListAdapter adapter;
+    private RecyclerView recyclerView;
+    PersonAdapter adapter;
+    private DataListAdapter Data_adapter;
     private List<Data> dataList;
     private List<Data> saveList;
 
@@ -58,10 +54,26 @@ public class MainActivity extends AppCompatActivity {
         boolean checker=false;
 
 
-        view=(RecyclerView)findViewById(R.id.main_recyclerview);
+
+
+        recyclerView=findViewById(R.id.main_recyclerview);
+        GridLayoutManager layoutManager=new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new PersonAdapter();
+
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OnPersonItemClickListener() {
+            @Override
+            public void onItemClick(PersonAdapter.ViewHolder viewHolder, View view, int position) {
+                Person item=adapter.getItem(position);
+                Toast.makeText(getApplicationContext(),"아이템 선택됨:"+item.getTitle(),Toast.LENGTH_LONG).show();
+            }
+        });
+
         //view.setLayoutManager(new LinearLayoutManager(this));
         //view.setAdapter(new CardViewTestAdapter());
-        dataList=new ArrayList<Data>();
+        /*dataList=new ArrayList<Data>();
         saveList=new ArrayList<Data>();
         adapter=new DataListAdapter(getApplicationContext(),dataList,this,saveList);
         view.setLayoutManager(new LinearLayoutManager(this));
@@ -93,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
 
         //검색하는기능
         EditText search=(EditText)findViewById(R.id.search);
@@ -146,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        //네비게이션뷰
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -163,9 +176,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(menuItem.getItemId()==R.id.upload){
                     String userID= Lintent.getStringExtra("userID");
-                    Intent intent=new Intent(MainActivity.this , StyleUpload.class);
+                    Intent intent=new Intent(MainActivity.this , CookUpload.class);
                     intent.putExtra("userID",userID);
-                    MainActivity.this.startActivity(intent);
+                    startActivity(intent);
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -198,7 +211,12 @@ public class MainActivity extends AppCompatActivity {
                 new BackgroundTask().execute();
             }
         });*/
+
+        new BackgroundTask().execute();
     }
+
+
+
     public  boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater=getMenuInflater();
@@ -238,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-        adapter.notifyDataSetChanged();
+        Data_adapter.notifyDataSetChanged();
     }
 
 
@@ -249,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            target="http://58.120.117.211/List.php";
+            target="http://192.168.121.142/cookReceip_server/TimelineList.php";
         }
 
         @Override
@@ -260,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 URL url=new URL(target);
                 HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
                 InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
                 String temp;
                 StringBuilder stringBuilder=new StringBuilder();
                 while((temp=bufferedReader.readLine())!=null)
@@ -288,12 +306,32 @@ public class MainActivity extends AppCompatActivity {
 
         public void onPostExecute(String result)
         {
-            Intent intent=new Intent(MainActivity.this,ManagementActivity.class);
-            intent.putExtra("userList",result);
-            MainActivity.this.startActivity(intent);
+            try{
+                JSONObject jsonObject=new JSONObject(result);
+                JSONArray jsonArray=jsonObject.getJSONArray("response");
+                int count=0;
+                String postUserid,postTitle,postPrice,postComment,postDate;
+
+                while(count<jsonArray.length()){
+                    JSONObject object=jsonArray.getJSONObject(count);
+                    postUserid=object.getString("userID_post");
+                    postTitle=object.getString("title_post");
+                    postPrice=object.getString("price_post");
+                    postComment=object.getString("comment_post");
+                    postDate=object.getString("date_post");
+                    adapter.addItem(new Person(postUserid,postTitle,postPrice,postComment));
+                    count++;
+
+                }
+
+            }catch (Exception e){
+
+            }
         }
 
 
     }
 
 }
+
+

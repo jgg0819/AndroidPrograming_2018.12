@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".StyleUpload">
+    tools:context=".CookUpload">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
-                android:id="@+id/ImageView"/>
+                android:id="@+id/upload_imageView"/>
 
         </LinearLayout>
 
@@ -35,40 +35,20 @@
 
 
             <EditText
-                android:id="@+id/edtStyleName"
+                android:id="@+id/upload_title"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="20dp"
-                android:hint="Style Name"
+                android:hint="제목"
                 android:padding="10dp"
                 android:textColor="@color/colorBlack" />
 
 
         </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:orientation="horizontal">
-
-
-                <EditText
-                    android:id="@+id/edtBrandName"
-                    android:layout_width="280dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="32dp"
-                    android:padding="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:hint="Brand Name"
-                    />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,17 +57,16 @@
 
 
                 <EditText
-                    android:id="@+id/edtPrice"
+                    android:id="@+id/upload_price"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="32dp"
+                    android:hint="가격"
                     android:padding="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:hint="Total price"
-                     />
+                    android:textColor="@color/colorBlack" />
 
             </LinearLayout>
 
@@ -98,17 +77,16 @@
 
 
                 <EditText
-                    android:id="@+id/edtComment"
+                    android:id="@+id/upload_comment"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginRight="32dp"
+                    android:hint="내용"
                     android:padding="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:hint="Comments"
-                     />
+                    android:textColor="@color/colorBlack" />
 
             </LinearLayout>
 

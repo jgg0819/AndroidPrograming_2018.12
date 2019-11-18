@@ -3,10 +3,7 @@ package com.jungbo.j4android.mynewist;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -41,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class StyleUpload extends AppCompatActivity {
+public class CookUpload extends AppCompatActivity {
     private static final int CAMERA_CODE = 0;
     private static final int GALLERY_CODE = 10;
     private String mCurrentPhotoPath;
@@ -51,27 +48,30 @@ public class StyleUpload extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_style_upload);
-        final EditText edt1,edt2,edt3,edt4;
+        final EditText edit_title,edit_price,edit_comment;
         Button uploadBtn;
-        edt1=(EditText) findViewById(R.id.edtStyleName);
-        edt2=(EditText) findViewById(R.id.edtBrandName);
-        edt3=(EditText) findViewById(R.id.edtPrice);
-        edt4=(EditText) findViewById(R.id.edtComment);
+        edit_title= findViewById(R.id.upload_title);
+        edit_price= findViewById(R.id.upload_price);
+        edit_comment= findViewById(R.id.upload_comment);
         uploadBtn=(Button)findViewById(R.id.upload_button);
 
-        Button saveBtn=(Button) findViewById(R.id.save_button);
+        Button save_Button=(Button) findViewById(R.id.save_button);
         //디비 업로드
 
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
+       uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent Pintent=getIntent();
-                String styleName= edt1.getText().toString();
-                String brandName= edt2.getText().toString();
-                String totalPrice= edt3.getText().toString();
-                String comment= edt4.getText().toString();
-               final String userID= Pintent.getStringExtra("userID");
+                String title= edit_title.getText().toString();
+                String price= edit_price.getText().toString();
+                String comment= edit_comment.getText().toString();
+                final String userID=Pintent.getStringExtra("userID");
 
+                //현재 시간 계산하기
+                long now=System.currentTimeMillis();
+                Date date=new Date(now);
+                SimpleDateFormat sdfNow=new SimpleDateFormat("yyyy/mm/dd HH:mm:ss");
+                String strNow=sdfNow.format(date);
 
                 Response.Listener<String> responseListener=new Response.Listener<String>() {
                     @Override
@@ -82,22 +82,20 @@ public class StyleUpload extends AppCompatActivity {
                             if(success)
                             {
                                 boolean checker=true;
-                                //String userID1=jsonResponse.getString("userID");
-                                AlertDialog.Builder builder=new AlertDialog.Builder(StyleUpload.this);
+                                AlertDialog.Builder builder=new AlertDialog.Builder(CookUpload.this);
                                 builder.setMessage("업로드 성공!.").setPositiveButton("확인",null).create().show();
-                                new BackgroundTask().execute();
-                                Intent intent=new Intent(StyleUpload.this,MainActivity.class);
+                                //new BackgroundTask().execute();
+                                Intent intent=new Intent(CookUpload.this,MainActivity.class);
                                 intent.putExtra("userID",userID);
                                 intent.putExtra("checker",checker);
-                                StyleUpload.this.startActivity(intent);
-                                //finish();
+                                CookUpload.this.startActivity(intent);
                             }
                             else
                             {
-                                AlertDialog.Builder builder=new AlertDialog.Builder(StyleUpload.this);
+                                AlertDialog.Builder builder=new AlertDialog.Builder(CookUpload.this);
                                 builder.setMessage("업로드 실패!.").setNegativeButton("다시시도",null).create().show();
-                                Intent intent=new Intent(StyleUpload.this, MainActivity.class);
-                                StyleUpload.this.startActivity(intent);
+                                Intent intent=new Intent(CookUpload.this, MainActivity.class);
+                                CookUpload.this.startActivity(intent);
                             }
 
                         }catch (Exception e){
@@ -107,9 +105,9 @@ public class StyleUpload extends AppCompatActivity {
                     }
                 };
 
-                StyleUploadRequest styleUploadRequest=new StyleUploadRequest(userID,styleName,brandName,totalPrice,comment,responseListener);
-                RequestQueue queue=Volley.newRequestQueue(StyleUpload.this);
-                queue.add(styleUploadRequest);
+                CookUploadRequest cookUploadRequest =new CookUploadRequest(userID,title,price,comment,strNow,responseListener);
+                RequestQueue queue=Volley.newRequestQueue(CookUpload.this);
+                queue.add(cookUploadRequest);
             }
         });
 
@@ -125,7 +123,7 @@ public class StyleUpload extends AppCompatActivity {
             }
         });
 
-        Button save_Button=(Button) findViewById(R.id.save_button);
+        save_Button=(Button) findViewById(R.id.save_button);
         save_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +145,7 @@ public class StyleUpload extends AppCompatActivity {
                     takePicture();
                 }else
                 {
-                    Toast.makeText(StyleUpload.this,"카메라 권한 및 쓰기 권한을 주지 않았습니다.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CookUpload.this,"카메라 권한 및 쓰기 권한을 주지 않았습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -162,7 +160,7 @@ public class StyleUpload extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            target="http://58.120.117.211/List.php";
+            target="http://192.168./List.php";
         }
 
         @Override
@@ -201,9 +199,9 @@ public class StyleUpload extends AppCompatActivity {
 
         public void onPostExecute(String result)
         {
-            Intent intent=new Intent(StyleUpload.this,MainActivity.class);
+            Intent intent=new Intent(CookUpload.this,MainActivity.class);
             intent.putExtra("userData",result);
-            StyleUpload.this.startActivity(intent);
+            CookUpload.this.startActivity(intent);
         }
     }
 
@@ -267,14 +265,14 @@ public class StyleUpload extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode==CAMERA_CODE)
         {
-            ImageView imageView=(ImageView) findViewById(R.id.ImageView);
+            ImageView imageView=(ImageView) findViewById(R.id.upload_imageView);
             imageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
         }
 
         if(requestCode==GALLERY_CODE && resultCode==RESULT_OK)
         {
             Uri uri=data.getData();
-            ImageView imageView=(ImageView)findViewById(R.id.ImageView);
+            ImageView imageView=(ImageView)findViewById(R.id.upload_imageView);
             imageView.setImageURI(uri);
         }
     }
